@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
@@ -23,11 +24,31 @@ func main() {
 
 	for update := range updates {
 		if update.Message != nil { // If we got a message
-			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+			continue
+		}
 
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+
+			command := strings.Split(update.Massage.Text, sep :" ")
+
+			
+
+			switch command [0]{
+			case "ADD":
+				bot.Send(tgbotapi.NewMessage(update.Message.MigrateToChatID, text:"Valuta dobavlena"))
+			case"SUB":
+				bot.Send(tgbotapi.NewMessage(update.Message.MigrateToChatID, text:"Valuta sub"))
+			case"DEL":
+				bot.Send(tgbotapi.NewMessage(update.Message.MigrateToChatID, text:"Valuta del"))
+			case"SHOW":
+				bot.Send(tgbotapi.NewMessage(update.Message.MigrateToChatID, text:"Valuta show"))
+			default:
+				bot.Send(tgbotapi.NewMessage(update.Message.MigrateToChatID, text:"Valuta ne naidena"))
+			}
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, command[0])
 
 			bot.Send(msg)
-		}
+		
 	}
+
 }
